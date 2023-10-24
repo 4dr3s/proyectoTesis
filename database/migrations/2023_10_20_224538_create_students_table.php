@@ -49,6 +49,10 @@ return new class extends Migration
             $table->longText('observaciones')->nullable();
             $table->string('code')->unique();
             $table->unsignedBigInteger('user_id');
+            $table->double('nota_ingles');
+            $table->integer('vinculacion');
+            $table->integer('pasantias');
+            $table->boolean('is_aprobado');
             $table->timestamps();
         });
     }

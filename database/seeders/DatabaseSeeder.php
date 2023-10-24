@@ -11,7 +11,6 @@ use App\Models\Document;
 use App\Models\Ethnicity;
 use App\Models\Institution;
 use App\Models\Mechanism_title;
-use App\Models\MechanismTitle;
 use App\Models\Province;
 use App\Models\School;
 use App\Models\Sex;
@@ -151,7 +150,11 @@ class DatabaseSeeder extends Seeder
             'school_id' => 1,
             'observaciones' => 'Primer registro',
             'user_id' => 1,
-            'code' => 'hola'
+            'code' => 'hola',
+            'nota_ingles' => 18.2,
+            'vinculacion' => 200,
+            'pasantias' => 80,
+            'is_aprobado' => true
         ]);
 
         Student::create([
@@ -188,7 +191,11 @@ class DatabaseSeeder extends Seeder
             'school_id' => 2,
             'observaciones' => 'Primer registro',
             'user_id' => 2,
-            'code' => 'hola1'
+            'code' => 'hola1',
+            'nota_ingles' => 12.2,
+            'vinculacion' => 200,
+            'pasantias' => 80,
+            'is_aprobado' => false
         ]);
     }
 }

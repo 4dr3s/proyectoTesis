@@ -66,4 +66,9 @@ class Student extends Model
     {
         return $this->belongsTo(Sex::class);
     }
+
+    public function User():BelongsTo
+    {
+        return $this->belongsTo(User::class);
+    }
 }
