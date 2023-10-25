@@ -197,5 +197,9 @@ class DatabaseSeeder extends Seeder
             'pasantias' => 80,
             'is_aprobado' => false
         ]);
+
+        $this->call([
+            CarrerSeeder::class
+        ]);
     }
 }

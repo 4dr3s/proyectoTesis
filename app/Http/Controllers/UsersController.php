@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Carrer;
 use App\Models\Student;
 use App\Models\User;
 use Firebase\JWT\JWT;
@@ -32,5 +33,13 @@ class UsersController extends Controller
 
     public function view(){
         return view('welcome');
+    }
+
+    public function carrers()
+    {
+        $carrers = Carrer::get();
+        return response()->json([
+            'data' => $carrers
+        ]);
     }
 }

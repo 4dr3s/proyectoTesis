@@ -7,3 +7,4 @@ use Illuminate\Support\Facades\Route;
 
 Route::get('/lista', [UsersController::class, 'index']);
 Route::post('/register', [RegisterController::class, 'register']);
+Route::get('/carrers', [UsersController::class, 'carrers']);

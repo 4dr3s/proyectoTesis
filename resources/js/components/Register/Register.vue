@@ -84,6 +84,13 @@
                 <input type="numeric" v-model="note_average" class="form-control">
             </div>
             <div class="form-group">
+                <label>Carrera: </label>
+                <select v-model="carrera" class="form-select" aria-label="Default select example">
+                    <option selected value="">Seleccione una opción</option>
+                    <option v-for="(carrer, index) in carreras" :key="index" :value="carrer.name">{{ carrer.name }}</option>
+                </select>
+            </div>
+            <div class="form-group">
                 <label>Nota Ingles: </label>
                 <input type="numeric" v-model="note_english" class="form-control">
             </div>
@@ -104,6 +111,9 @@
 
 <script>
     export default{
+        mounted() {
+            this.listCarrers()
+        },
         data() {
             return {
                 identification: '',
@@ -122,6 +132,7 @@
                 date_graduation: '',
                 mechanism: '',
                 note_average: '',
+                carrera: '',
                 note_english: '',
                 practices_hours: '',
                 vinculation_hours: '',
@@ -192,7 +203,8 @@
                     'Tesis',
                     'Examen'
                 ],
-                errors: []
+                errors: [],
+                carreras: []
             }
         },
         methods: {
@@ -221,6 +233,7 @@
                             date_graduation: this.date_graduation,
                             mechanism: this.mechanism,
                             note_average: this.note_average,
+                            carrera: this.carrera,
                             note_english: this.note_english,
                             practices_hours: this.practices_hours,
                             vinculation_hours: this.vinculation_hours
@@ -235,6 +248,24 @@
                     else{
                         console.log(response.status);
                     }
+                } catch (error) {
+                    console.log(error);
+                }
+            },
+            async listCarrers() {
+                try {
+                    const res = await fetch('/api/carrers', {
+                        method: 'GET',
+                        headers: {
+                            'Accept': 'application/json',
+                            'Content-Type': 'application/json'
+                        },
+                        body: JSON.stringify()
+                    })
+
+                    const response = await res.json();
+
+                    this.carreras = response.data;
                 } catch (error) {
                     
                 }

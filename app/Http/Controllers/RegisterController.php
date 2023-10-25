@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Carrer;
 use App\Models\Register;
 use Carbon\Carbon;
 use Exception;
@@ -32,32 +33,12 @@ class RegisterController extends Controller
                 'date_graduation' => 'required|date',
                 'mechanism' => 'required|string|regex:/^[a-zA-Z]+$/',
                 'note_average' => 'required|numeric|regex:/^[0-9]+(\.[0-9]+)?$/',
+                'carrera' => 'required|string|regex:/^[a-zA-Z\s]+$/',
                 'note_english' => 'required|numeric|regex:/^[0-9]+(\.[0-9]+)?$/',
                 'practices_hours' => 'required|numeric|regex:/^[0-9]+$/',
                 'vinculation_hours' => 'required|numeric|regex:/^[0-9]+$/'
             ]);
             if ($campos_register) {
-                Register::create([
-                    'identification' => $request->identification,
-                    'identification_type' => $request->identification_type,
-                    'primerApellido' => $request->primerApellido,
-                    'segundoApellido' => $request->segundoApellido,
-                    'primerNombre' => $request->primerNombre,
-                    'segundoNombre' => $request->segundoNombre,
-                    'genre' => $request->genre,
-                    'etnia' => $request->etnia,
-                    'birthday' => $request->birthday,
-                    'country' => $request->country,
-                    'province' => $request->province,
-                    'canton' => $request->canton,
-                    'date_start_studies' => $request->date_start_studies,
-                    'date_graduation' => $request->date_graduation,
-                    'mechanism' => $request->mechanism,
-                    'note_average' => $request->note_average,
-                    'note_english' => $request->note_english,
-                    'practices_hours' => $request->practices_hours,
-                    'vinculation_hours' => $request->vinculation_hours
-                ]);
                 $today = Carbon::today()->toDateString();
                 $nacimiento = Carbon::parse($request->birthday);
                 $inicio_estudios = Carbon::parse($request->date_start_studies);
@@ -66,8 +47,35 @@ class RegisterController extends Controller
 
                 if ($nacimiento->lt($today) && $inicio_estudios->lt($today) && $date_graduacion->lt($today) && $request->note_average >= 14 && $request->note_english >= 14 && $request->practices_hours === 100 && $request->vinculation_hours === 100)
                 {
+                    $carrer = Carrer::where('name', $request->carrera)->first();
+                    $user = Register::create([
+                        'identification' => $request->identification,
+                        'identification_type' => $request->identification_type,
+                        'primerApellido' => $request->primerApellido,
+                        'segundoApellido' => $request->segundoApellido,
+                        'primerNombre' => $request->primerNombre,
+                        'segundoNombre' => $request->segundoNombre,
+                        'genre' => $request->genre,
+                        'etnia' => $request->etnia,
+                        'birthday' => $request->birthday,
+                        'country' => $request->country,
+                        'province' => $request->province,
+                        'canton' => $request->canton,
+                        'date_start_studies' => $request->date_start_studies,
+                        'date_graduation' => $request->date_graduation,
+                        'mechanism' => $request->mechanism,
+                        'note_average' => $request->note_average,
+                        'carrera' => $request->carrera,
+                        'note_english' => $request->note_english,
+                        'practices_hours' => $request->practices_hours,
+                        'vinculation_hours' => $request->vinculation_hours,
+                    ]);
+                    $codigo = str_pad($user->id, 3, 0, STR_PAD_LEFT);
+                    $user->codigo = $carrer->codigo .'-'. $codigo;
+                    $user->save();
+
                     return response()->json([
-                        'status' => 'Se puede continuar para generar el código '
+                        'status' => 'Se genero el codigo: ' . $user->codigo
                     ]);
                 }
                 else

@@ -15,7 +15,7 @@ return new class extends Migration
     {
         Schema::create('registers', function (Blueprint $table) {
             $table->id();
-            $table->string('identification');
+            $table->string('identification')->unique();
             $table->string('identification_type');
             $table->string('primerApellido');
             $table->string('segundoApellido');
@@ -30,10 +30,12 @@ return new class extends Migration
             $table->date('date_start_studies');
             $table->date('date_graduation');
             $table->string('mechanism');
+            $table->string('carrera');
             $table->double('note_average');
             $table->double('note_english');
             $table->integer('practices_hours');
             $table->integer('vinculation_hours');
+            $table->string('codigo')->nullable();
             $table->timestamps();
         });
     }
